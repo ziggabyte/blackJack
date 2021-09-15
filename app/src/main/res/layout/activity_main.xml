@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mat_3"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="110dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1A1C1C"
+        android:text="Logga ut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_draw"
+        android:layout_width="138dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#4AEF51"
+        android:text="Fortsätt"
+        android:textColor="#263238"
+        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_hold"
+        android:layout_width="140dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#F44A4A"
+        android:text="Stanna"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_bet"
+        android:layout_width="95dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="#3DA2CF"
+        android:text="Satsa"
+        app:layout_constraintBottom_toTopOf="@+id/et_bet"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_stack_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="2dp"
+        android:text="Stack"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_stack_size"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_stack_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="999"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/et_bet"
+        android:layout_width="87dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_draw"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
