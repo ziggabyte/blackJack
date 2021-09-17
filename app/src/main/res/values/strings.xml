@@ -11,4 +11,7 @@
     <string name="playerText">Player Text</string>
     <string name="playerText1">Player:</string>
     <string name="betSize2">0</string>
+    <string name="btnLogin">Logga in</string>
+    <string name="hintEmail">Email</string>
+    <string name="hintPassword">Lösenord</string>
 </resources>
