@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import com.example.blackjackappx.entities.Deck
 import com.example.blackjackappx.entities.User
@@ -16,19 +17,37 @@ import retrofit2.converter.gson.GsonConverterFactory
 class GameActivity : AppCompatActivity() {
     val BASE_URL = "https://www.deckofcardsapi.com"
     lateinit var btnLogout: Button
+    lateinit var btnBet: Button
     lateinit var tvPlayerStack: TextView
     lateinit var tvPlayerName: TextView
+    lateinit var etPlacedBet: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         btnLogout = findViewById(R.id.btn_logout)
+        btnBet = findViewById(R.id.btn_bet)
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
+        etPlacedBet = findViewById(R.id.et_bet)
         val userOne: User = User("Lisa", "123")
         tvPlayerName.setText(userOne.userName)
         tvPlayerStack.setText(userOne.userStack.toString())
+
+        var startStack = tvPlayerStack.text.toString().toInt()
+
+        fun setStartStack(bet: String) {
+            startStack -= bet.toInt()
+            tvPlayerStack.setText("$startStack")
+        }
+
+        btnBet.setOnClickListener{
+            etPlacedBet = findViewById(R.id.et_bet)
+            var placedBet = etPlacedBet.text.toString()
+            setStartStack(placedBet)
+        }
     }
 
     private fun getDeck() {
@@ -57,6 +76,7 @@ class GameActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun getDrawnCard(deckId : String){
 
