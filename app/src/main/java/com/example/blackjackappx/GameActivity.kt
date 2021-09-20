@@ -36,16 +36,20 @@ class GameActivity : AppCompatActivity() {
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
         etPlacedBet = findViewById(R.id.et_bet)
-        val userOne: User = User("Lisa", "123")
-        tvPlayerName.setText(userOne.userName)
-        tvPlayerStack.setText(userOne.userStack.toString())
-        val startBtn : Button = findViewById(R.id.btn_play)
 
+        val currentUser = User(
+            intent.getStringExtra("username").toString(),
+            intent.getStringExtra("password").toString())
+
+        tvPlayerName.text = currentUser.username
+        tvPlayerStack.text = currentUser.userStack.toString()
+
+        val startBtn : Button = findViewById(R.id.btn_play)
         var startStack = tvPlayerStack.text.toString().toInt()
 
         fun setStartStack(bet: String) {
             startStack -= bet.toInt()
-            tvPlayerStack.setText("$startStack")
+            tvPlayerStack.text = "$startStack"
         }
 
         startBtn.setOnClickListener{
@@ -82,7 +86,7 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Deck>, t: Throwable) {
-                Log.d("MainActivity", "did not work" + t)
+                Log.d("MainActivity", "did not work $t")
             }
         })
     }
@@ -121,7 +125,7 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Deck>, t: Throwable) {
-                Log.d("MainActivity", "did not work" + t)
+                Log.d("MainActivity", "did not work $t")
             }
         })
     }
