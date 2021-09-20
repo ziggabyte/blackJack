@@ -8,13 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper
 class DatabaseHelper(context : Context?) : SQLiteOpenHelper(context, "UserDatabase.db", null, 1) {
 
     val USER_TABLE = "USER_TABLE"
-    val COLUMN_EMAIL = "COLUMN_EMAIL"
+    val COLUMN_USERNAME = "COLUMN_USERNAME"
     val COLUMN_PASSWORD = "COLUMN_PASSWORD"
 
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE " +
                 USER_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_EMAIL + " TEXT, " +
+                COLUMN_USERNAME + " TEXT, " +
                 COLUMN_PASSWORD + " TEXT)"
         db?.execSQL(query)
     }
@@ -23,11 +23,11 @@ class DatabaseHelper(context : Context?) : SQLiteOpenHelper(context, "UserDataba
         //används ej
     }
 
-    fun isInDatabase(email : String, password : String) : Boolean {
+    fun isInDatabase(username : String, password : String) : Boolean {
         val db : SQLiteDatabase = this.readableDatabase
-        val query = "SELECT * FROM $USER_TABLE WHERE $COLUMN_EMAIL = ? " +
+        val query = "SELECT * FROM $USER_TABLE WHERE $COLUMN_USERNAME = ? " +
                 "AND $COLUMN_PASSWORD = ?"
-        val cursor = db.rawQuery(query, arrayOf(email, password))
+        val cursor = db.rawQuery(query, arrayOf(username, password))
 
         return cursor.count != 0
     }
@@ -36,7 +36,7 @@ class DatabaseHelper(context : Context?) : SQLiteOpenHelper(context, "UserDataba
         val db = this.writableDatabase
         val cv = ContentValues()
 
-        cv.put(COLUMN_EMAIL, "user@testuser.com")
+        cv.put(COLUMN_USERNAME, "Testuser")
         cv.put(COLUMN_PASSWORD, "Password123")
 
         val long = db.insert(USER_TABLE, null, cv)
