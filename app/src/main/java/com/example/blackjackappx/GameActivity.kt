@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import coil.load
 import com.example.blackjackappx.entities.Deck
 import com.example.blackjackappx.entities.User
 import retrofit2.Call
@@ -27,12 +29,13 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        getDeck()
+
         btnLogout = findViewById(R.id.btn_logout)
         btnBet = findViewById(R.id.btn_bet)
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
         etPlacedBet = findViewById(R.id.et_bet)
-
 
         val currentUser = User(
             intent.getStringExtra("username").toString(),
@@ -41,11 +44,16 @@ class GameActivity : AppCompatActivity() {
         tvPlayerName.text = currentUser.username
         tvPlayerStack.text = currentUser.userStack.toString()
 
+        val startBtn : Button = findViewById(R.id.btn_play)
         var startStack = tvPlayerStack.text.toString().toInt()
 
         fun setStartStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
+        }
+
+        startBtn.setOnClickListener{
+            getDrawnCard(startBtn.tag.toString(), 4)
         }
 
         btnBet.setOnClickListener{
@@ -71,8 +79,9 @@ class GameActivity : AppCompatActivity() {
                 val deck : Deck? = response.body()
                 if (deck != null) {
                     println(deck.deck_id + "  remaining: " + deck.remaining)
+                    val playbtn : Button = findViewById(R.id.btn_play)
+                    playbtn.setTag(deck.deck_id)
 
-                    getDrawnCard(deck.deck_id)
                 }
             }
 
@@ -83,7 +92,7 @@ class GameActivity : AppCompatActivity() {
     }
 
 
-    private fun getDrawnCard(deckId : String){
+    private fun getDrawnCard(deckId : String, count : Int){
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -91,7 +100,7 @@ class GameActivity : AppCompatActivity() {
             .build()
             .create(RetrofitInterface::class.java)
 
-        val call = retrofit.getDrawnCard(deckId)
+        val call = retrofit.getDrawnCard(deckId, count)
         call?.enqueue(object: Callback<Deck> {
             override fun onResponse(
                 call: Call<Deck>,
@@ -101,6 +110,17 @@ class GameActivity : AppCompatActivity() {
                 if (deck != null) {
                     println(deck.deck_id + "  remaining: " + deck.remaining)
                     println(deck.cards[0].value)
+                    println(deck.cards[1].value)
+                    println(deck.cards[2].value)
+                    println(deck.cards[3].value)
+                    val card1 : ImageView = findViewById(R.id.card1)
+                    val card2 : ImageView = findViewById(R.id.card2)
+                    val card3 : ImageView = findViewById(R.id.card3)
+                    val card4 : ImageView = findViewById(R.id.card4)
+                    card1.load(deck.cards[0].image)
+                    card2.load(deck.cards[1].image)
+                    card3.load(deck.cards[2].image)
+                    card4.load(deck.cards[3].image)
                 }
             }
 
