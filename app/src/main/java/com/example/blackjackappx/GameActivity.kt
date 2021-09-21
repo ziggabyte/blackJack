@@ -47,7 +47,7 @@ class GameActivity : AppCompatActivity() {
         val startBtn : Button = findViewById(R.id.btn_play)
         var startStack = tvPlayerStack.text.toString().toInt()
 
-        fun setStartStack(bet: String) {
+        fun updateStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
         }
@@ -57,9 +57,16 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnBet.setOnClickListener{
-            etPlacedBet = findViewById(R.id.et_bet)
-            var placedBet = etPlacedBet.text.toString()
-            setStartStack(placedBet)
+            try {
+                etPlacedBet = findViewById(R.id.et_bet)
+                var placedBet = etPlacedBet.text.toString()
+                updateStack(placedBet)
+                etPlacedBet.text.clear()
+
+            }catch (e: NumberFormatException) {
+
+            }
+
         }
     }
 
