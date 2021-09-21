@@ -53,7 +53,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         startBtn.setOnClickListener{
-            getDrawnCard(startBtn.tag.toString(), 4)
+            getStartCards(startBtn.tag.toString(), 4)
         }
 
         btnBet.setOnClickListener{
@@ -92,7 +92,7 @@ class GameActivity : AppCompatActivity() {
     }
 
 
-    private fun getDrawnCard(deckId : String, count : Int){
+    private fun getStartCards(deckId : String, count : Int){
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -100,7 +100,7 @@ class GameActivity : AppCompatActivity() {
             .build()
             .create(RetrofitInterface::class.java)
 
-        val call = retrofit.getDrawnCard(deckId, count)
+        val call = retrofit.getStartCards(deckId, count)
         call?.enqueue(object: Callback<Deck> {
             override fun onResponse(
                 call: Call<Deck>,
@@ -121,6 +121,33 @@ class GameActivity : AppCompatActivity() {
                     card2.load(deck.cards[1].image)
                     card3.load(deck.cards[2].image)
                     card4.load(deck.cards[3].image)
+                }
+            }
+
+            override fun onFailure(call: Call<Deck>, t: Throwable) {
+                Log.d("MainActivity", "did not work $t")
+            }
+        })
+    }
+
+    private fun getDrawnCard(deckId: String, count: Int){
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RetrofitInterface::class.java)
+
+        val call = retrofit.getDrawnCard(deckId, count)
+        call?.enqueue(object: Callback<Deck> {
+            override fun onResponse(
+                call: Call<Deck>,
+                response: Response<Deck>
+            ) {
+                val deck : Deck? = response.body()
+                if (deck != null) {
+                    println(deck.deck_id + "  remaining: " + deck.remaining)
+                    println(deck.cards[0].value)
+
                 }
             }
 
