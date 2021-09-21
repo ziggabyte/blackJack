@@ -25,17 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         databaseHelper.initiateDatabase()
 
-        var test21 = arrayListOf<Int>(11,10)
-
-        fun isBlackJack(hand: ArrayList<Int>): Boolean {
-            return hand.sum() == 21
-
-        }
-        var xx: Boolean = isBlackJack(test21)
-        if(xx==true){
-            btnLogin.setText("BlackJack")
-        }
-
 
         btnLogin.setOnClickListener{
             val username = etUsername.text.toString()
