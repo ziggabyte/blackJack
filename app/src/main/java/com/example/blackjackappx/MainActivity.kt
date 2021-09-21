@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.blackjackappx.entities.Game
+import kotlinx.coroutines.test.withTestContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +24,17 @@ class MainActivity : AppCompatActivity() {
         val databaseHelper = DatabaseHelper(this)
 
         databaseHelper.initiateDatabase()
+
+        var test21 = arrayListOf<Int>(11,10)
+
+        fun isBlackJack(hand: ArrayList<Int>): Boolean {
+            return hand.sum() == 21
+
+        }
+        var xx: Boolean = isBlackJack(test21)
+        if(xx==true){
+            btnLogin.setText("BlackJack")
+        }
 
 
         btnLogin.setOnClickListener{
