@@ -15,6 +15,9 @@ interface RetrofitInterface {
 
 
     @GET("/api/deck/{id}/draw/?count=")
+    fun getStartCards(@Path("id") deckID : String, @Query("count") count : Int) : Call<Deck>
+
+    @GET("/api/deck/{id}/draw/?count=")
     fun getDrawnCard(@Path("id") deckID : String, @Query("count") count : Int) : Call<Deck>
 
     companion object {
