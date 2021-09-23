@@ -8,9 +8,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
-import com.example.blackjackappx.entities.Dealer
-import com.example.blackjackappx.entities.Deck
-import com.example.blackjackappx.entities.User
+import com.example.blackjackappx.entities.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +45,8 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game)
 
         getDeck()
+
+
 
         //instansiering av spelarens iv-kort
         playerCard4 = findViewById(R.id.playerCard4)
@@ -168,6 +168,28 @@ class GameActivity : AppCompatActivity() {
                     card2.load(deck.cards[1].image)
                     card3.load(deck.cards[2].image)
                     card4.load(deck.cards[3].image)
+                    val c : Card = deck.cards[0]
+
+                     fun setPoints (c : Card) {
+                        c.points =
+                            if(c.value == "ACE") {
+                                11
+                            }
+                            else if(c.value == "KING" || c.value == "QUEEN" || c.value == "JACK") {
+                                10
+                            }
+                            else {
+                                c.value.toInt()
+                            }
+                    }
+                    setPoints(c)
+                    val playerHand : Array<Int> = arrayOf(c.points)
+                    //val game : Game = Game()
+                    //game.playerHand.set(0,deck.cards[0].points)
+                    //game.playerHand.set(1,deck.cards[2].points)
+                    println(playerHand[0])
+
+
                 }
             }
 
