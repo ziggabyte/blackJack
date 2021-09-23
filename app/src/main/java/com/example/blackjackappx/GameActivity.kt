@@ -3,6 +3,7 @@ package com.example.blackjackappx
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,13 +19,12 @@ import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
     val BASE_URL = "https://www.deckofcardsapi.com"
+    lateinit var btnStart : Button
     lateinit var btnLogout: Button
-    lateinit var btnBet: Button
     lateinit var btnDraw: Button
     lateinit var btnHold : Button
     lateinit var tvPlayerStack: TextView
     lateinit var tvPlayerName: TextView
-    lateinit var etPlacedBet: EditText
 
     //spelarens iv-kort som dras med btnDraw
     lateinit var playerCard3 : ImageView
@@ -39,14 +39,11 @@ class GameActivity : AppCompatActivity() {
     //variabel som styr vilket kort som ska få värde i en lista av korten/imageviews
     var cardCount : Int = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         getDeck()
-
-
 
         //instansiering av spelarens iv-kort
         playerCard4 = findViewById(R.id.playerCard4)
@@ -58,53 +55,41 @@ class GameActivity : AppCompatActivity() {
         dealerCard4 = findViewById(R.id.dealerCard4)
         dealerCard5 = findViewById(R.id.dealerCard5)
 
-
-        btnLogout = findViewById(R.id.btn_logout)
-        btnBet = findViewById(R.id.btn_bet)
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
-        etPlacedBet = findViewById(R.id.et_bet)
+
         btnDraw = findViewById(R.id.btn_draw)
         btnHold = findViewById(R.id.btn_hold)
+        btnStart = findViewById(R.id.btn_start)
+        btnLogout = findViewById(R.id.btn_logout)
 
-        val currentUser = User(
+        var currentUser = User(
             intent.getStringExtra("username").toString(),
             intent.getStringExtra("password").toString())
-
         tvPlayerName.text = currentUser.username
-        tvPlayerStack.text = currentUser.userStack.toString()
 
-        val startBtn : Button = findViewById(R.id.btn_play)
-        var startStack = tvPlayerStack.text.toString().toInt()
+        var startStack = 100 - intent.getStringExtra("placedBet")!!.toInt()
+        currentUser.userStack = startStack
+        tvPlayerStack.text = "$startStack"
 
         fun updateStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
         }
 
-        startBtn.setOnClickListener{
-            getStartCards(startBtn.tag.toString(), 4)
+        btnStart.setOnClickListener{
+            getStartCards(btnStart.tag.toString(), 4)
+            btnStart.visibility = View.INVISIBLE
+            btnStart.isClickable = false
         }
 
         btnHold.setOnClickListener{
-            getDrawnCardToDealer(startBtn.tag.toString(), 1, cardCount)
+            getDrawnCardToDealer(btnStart.tag.toString(), 1, cardCount)
             cardCount++
         }
 
-        btnBet.setOnClickListener{
-            try {
-                etPlacedBet = findViewById(R.id.et_bet)
-                var placedBet = etPlacedBet.text.toString()
-                updateStack(placedBet)
-                etPlacedBet.text.clear()
-
-            }catch (e: NumberFormatException) {
-
-            }
-        }
-
         btnDraw.setOnClickListener{
-            getDrawnCard(startBtn.tag.toString(), 1, cardCount)
+            getDrawnCard(btnStart.tag.toString(), 1, cardCount)
             cardCount ++
         }
     }
@@ -126,8 +111,7 @@ class GameActivity : AppCompatActivity() {
                 val deck : Deck? = response.body()
                 if (deck != null) {
                     println(deck.deck_id + "  remaining: " + deck.remaining)
-                    val playbtn : Button = findViewById(R.id.btn_play)
-                    playbtn.setTag(deck.deck_id)
+                    btnStart.tag = deck.deck_id
 
                 }
             }
@@ -213,13 +197,15 @@ class GameActivity : AppCompatActivity() {
                 call: Call<Deck>,
                 response: Response<Deck>
             ) {
-                val deck : Deck? = response.body()
-                if (deck != null) {
-                    println(deck.deck_id + "  remaining: " + deck.remaining)
-                    println(deck.cards[0].value)
-                    var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
+                if(response.isSuccessful) {
+                    val deck : Deck? = response.body()
+                    if (deck != null) {
+                        println(deck.deck_id + "  remaining: " + deck.remaining)
+                        println(deck.cards[0].value)
+                        var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
                         ivList[cardCount].load(deck.cards[0].image)
-                    return
+                        return
+                    }
                 }
             }
             override fun onFailure(call: Call<Deck>, t: Throwable) {

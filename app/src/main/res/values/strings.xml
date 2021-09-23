@@ -5,7 +5,7 @@
     <string name="playerStack">Player Stack</string>
     <string name="drawText">Draw</string>
     <string name="holdText">Hold</string>
-    <string name="betText">Bet</string>
+    <string name="betText">Place bet</string>
     <string name="logoutText">Logout</string>
     <string name="betSize">Bet Size</string>
     <string name="playerText">Player Text</string>
@@ -14,5 +14,6 @@
     <string name="btnLogin">Logga in</string>
     <string name="hintEmail">Email</string>
     <string name="hintPassword">Lösenord</string>
-    <string name="play">Play</string>
+    <string name="btnPlay">Play</string>
+    <string name="tvStartStack">You have $100</string>
 </resources>

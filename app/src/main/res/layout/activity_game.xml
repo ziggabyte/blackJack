@@ -19,45 +19,39 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <Button
         android:id="@+id/btn_draw"
         android:layout_width="0dp"
         android:layout_height="90dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginStart="16dp"
         android:backgroundTint="#4AEF51"
         android:text="@string/drawText"
         android:textColor="#263238"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_hold"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btn_hold"
+        app:layout_constraintTop_toTopOf="@+id/btn_hold" />
 
     <Button
         android:id="@+id/btn_hold"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="90dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="180dp"
         android:backgroundTint="#F44A4A"
         android:text="@string/holdText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_bet"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_draw" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_bet"
-        android:layout_width="120dp"
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
         android:layout_height="90dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="192dp"
-        android:backgroundTint="#3DA2CF"
-        android:text="@string/betText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="252dp"
+        android:backgroundTint="#F4E"
+        android:text="@string/btnPlay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_hold" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_stack_text"
@@ -81,54 +75,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_stack_text" />
 
-    <EditText
-        android:id="@+id/et_bet"
-        android:layout_width="102dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/betSize2"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_bet" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/playerText1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_draw"
+        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvPlayerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="16dp"
         android:text="@string/playerName"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:backgroundTint="#38BA3D"
-        android:text="@string/play"
-        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.916"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_bet"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <ImageView
         android:id="@+id/card2"
