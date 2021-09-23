@@ -5,13 +5,13 @@ class Card (
     val value : String,
     val suit : String,
     val code : String,
-    var points : Int = 0
+    var points : Int
         ) {
     init {
-        setPoints()
+        points = setPoints(this.value)
     }
 
-    private fun setPoints() {
+    private fun setPoints (value: String) : Int {
         points =
             if(value == "ACE") {
                 11
@@ -22,5 +22,6 @@ class Card (
             else {
                 value.toInt()
         }
+        return points
     }
 }

@@ -15,4 +15,6 @@
     <string name="hintEmail">Email</string>
     <string name="hintPassword">Lösenord</string>
     <string name="play">Play</string>
+    <string name="Score">score</string>
+    <string name="dealerPoints">dPoints</string>
 </resources>

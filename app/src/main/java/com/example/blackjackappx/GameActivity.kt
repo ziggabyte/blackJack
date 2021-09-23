@@ -8,14 +8,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
-import com.example.blackjackappx.entities.Dealer
-import com.example.blackjackappx.entities.Deck
-import com.example.blackjackappx.entities.User
+import com.example.blackjackappx.entities.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Array
 import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
@@ -26,7 +25,10 @@ class GameActivity : AppCompatActivity() {
     lateinit var btnHold : Button
     lateinit var tvPlayerStack: TextView
     lateinit var tvPlayerName: TextView
+    lateinit var tvScore: TextView
+    lateinit var tvDealerScore: TextView
     lateinit var etPlacedBet: EditText
+
 
     //spelarens iv-kort som dras med btnDraw
     lateinit var playerCard3 : ImageView
@@ -48,6 +50,8 @@ class GameActivity : AppCompatActivity() {
 
         getDeck()
 
+
+
         //instansiering av spelarens iv-kort
         playerCard4 = findViewById(R.id.playerCard4)
         playerCard5 = findViewById(R.id.playerCard5)
@@ -66,6 +70,9 @@ class GameActivity : AppCompatActivity() {
         etPlacedBet = findViewById(R.id.et_bet)
         btnDraw = findViewById(R.id.btn_draw)
         btnHold = findViewById(R.id.btn_hold)
+        tvScore = findViewById(R.id.tvScore)
+        tvDealerScore = findViewById(R.id.tvDealerPoint)
+
 
         val currentUser = User(
             intent.getStringExtra("username").toString(),
@@ -168,6 +175,39 @@ class GameActivity : AppCompatActivity() {
                     card2.load(deck.cards[1].image)
                     card3.load(deck.cards[2].image)
                     card4.load(deck.cards[3].image)
+
+                    val c : Card = deck.cards[0]
+                    val c2 : Card = deck.cards[2]
+                    val d1 : Card = deck.cards[1]
+                    val d2 : Card = deck.cards[3]
+
+
+
+                     fun setPoints (c : Card) {
+                        c.points =
+                            if(c.value == "ACE") {
+                                11
+                            }
+                            else if(c.value == "KING" || c.value == "QUEEN" || c.value == "JACK") {
+                                10
+                            }
+                            else {
+                                c.value.toInt()
+                            }
+                    }
+                    
+                    setPoints(c)
+                    setPoints(c2)
+                    setPoints(d1)
+                    setPoints(d2)
+
+                    var playerPoints = c.points+c2.points
+                    var dealerPoints = d1.points+d2.points
+
+                    println("---------------------------------------$playerPoints")
+
+                    tvScore.setText(playerPoints.toString())
+                    tvDealerScore.setText(dealerPoints.toString())
 
 
                 }
