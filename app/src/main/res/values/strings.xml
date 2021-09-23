@@ -14,6 +14,12 @@
     <string name="btnLogin">Logga in</string>
     <string name="hintEmail">Email</string>
     <string name="hintPassword">Lösenord</string>
+
+    <string name="play">Play</string>
+    <string name="Score">score</string>
+    <string name="dealerPoints">dPoints</string>
+
     <string name="btnPlay">Play</string>
     <string name="tvStartStack">You have $100</string>
+
 </resources>

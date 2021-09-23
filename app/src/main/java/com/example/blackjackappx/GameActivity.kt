@@ -16,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Array
 import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity() {
@@ -26,6 +27,12 @@ class GameActivity : AppCompatActivity() {
     lateinit var btnHold : Button
     lateinit var tvPlayerStack: TextView
     lateinit var tvPlayerName: TextView
+
+    lateinit var tvScore: TextView
+    lateinit var tvDealerScore: TextView
+    lateinit var etPlacedBet: EditText
+
+
 
     //spelarens iv-kort som dras med btnDraw
     lateinit var playerCard3 : ImageView
@@ -61,8 +68,14 @@ class GameActivity : AppCompatActivity() {
 
         btnDraw = findViewById(R.id.btn_draw)
         btnHold = findViewById(R.id.btn_hold)
+
+        tvScore = findViewById(R.id.tvScore)
+        tvDealerScore = findViewById(R.id.tvDealerPoint)
+
+
         btnStart = findViewById(R.id.btn_start)
         btnLogout = findViewById(R.id.btn_logout)
+
 
         var currentUser = User(
             intent.getStringExtra("username").toString(),
@@ -160,7 +173,13 @@ class GameActivity : AppCompatActivity() {
                     card2.load(deck.cards[1].image)
                     card3.load(deck.cards[2].image)
                     card4.load(deck.cards[3].image)
+
                     val c : Card = deck.cards[0]
+                    val c2 : Card = deck.cards[2]
+                    val d1 : Card = deck.cards[1]
+                    val d2 : Card = deck.cards[3]
+
+
 
                      fun setPoints (c : Card) {
                         c.points =
@@ -174,12 +193,19 @@ class GameActivity : AppCompatActivity() {
                                 c.value.toInt()
                             }
                     }
+                    
                     setPoints(c)
-                    val playerHand : Array<Int> = arrayOf(c.points)
-                    //val game : Game = Game()
-                    //game.playerHand.set(0,deck.cards[0].points)
-                    //game.playerHand.set(1,deck.cards[2].points)
-                    println(playerHand[0])
+                    setPoints(c2)
+                    setPoints(d1)
+                    setPoints(d2)
+
+                    var playerPoints = c.points+c2.points
+                    var dealerPoints = d1.points+d2.points
+
+                    println("---------------------------------------$playerPoints")
+
+                    tvScore.setText(playerPoints.toString())
+                    tvDealerScore.setText(dealerPoints.toString())
 
 
                 }

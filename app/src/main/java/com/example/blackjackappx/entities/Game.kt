@@ -1,6 +1,6 @@
 package com.example.blackjackappx.entities
 
-class Game {
+class   Game {
     //Array<Cards>
     //dealer-lista
     //Spelar-lista
@@ -9,9 +9,11 @@ class Game {
     var playerWin: Boolean = false
     var even: Boolean = false
 
+
     var deck = mutableListOf<Card>()
     lateinit var playerHand: Array<Int>
     lateinit var dealerHand: Array<Int>
+
 
     fun isBlackJack(hand: ArrayList<Int>): Boolean {
         return hand.sum() == 21
