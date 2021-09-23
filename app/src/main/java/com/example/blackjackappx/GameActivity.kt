@@ -3,6 +3,7 @@ package com.example.blackjackappx
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,56 +19,46 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class GameActivity : AppCompatActivity() {
     val BASE_URL = "https://www.deckofcardsapi.com"
+    lateinit var btnStart : Button
     lateinit var btnLogout: Button
-    lateinit var btnBet: Button
+    lateinit var btnDraw : Button
     lateinit var tvPlayerStack: TextView
     lateinit var tvPlayerName: TextView
-    lateinit var etPlacedBet: EditText
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        getDeck()
-
+        btnStart = findViewById(R.id.btn_start)
         btnLogout = findViewById(R.id.btn_logout)
-        btnBet = findViewById(R.id.btn_bet)
+        btnDraw = findViewById(R.id.btn_draw)
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
-        etPlacedBet = findViewById(R.id.et_bet)
 
-        val currentUser = User(
+        println(intent.getStringExtra("placedBet"))
+
+
+        var currentUser = User(
             intent.getStringExtra("username").toString(),
             intent.getStringExtra("password").toString())
-
         tvPlayerName.text = currentUser.username
-        tvPlayerStack.text = currentUser.userStack.toString()
 
-        val startBtn : Button = findViewById(R.id.btn_play)
-        var startStack = tvPlayerStack.text.toString().toInt()
+        var startStack = 100 - intent.getStringExtra("placedBet")!!.toInt()
+        currentUser.userStack = startStack
+        tvPlayerStack.text = "$startStack"
 
         fun updateStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
         }
 
-        startBtn.setOnClickListener{
-            getStartCards(startBtn.tag.toString(), 4)
+        btnStart.setOnClickListener{
+            getStartCards(btnStart.tag.toString(), 4)
+            btnStart.visibility = View.INVISIBLE
+            btnStart.isClickable = false
         }
 
-        btnBet.setOnClickListener{
-            try {
-                etPlacedBet = findViewById(R.id.et_bet)
-                var placedBet = etPlacedBet.text.toString()
-                updateStack(placedBet)
-                etPlacedBet.text.clear()
-
-            }catch (e: NumberFormatException) {
-
-            }
-
-        }
+        getDeck()
     }
 
     private fun getDeck() {
@@ -86,8 +77,7 @@ class GameActivity : AppCompatActivity() {
                 val deck : Deck? = response.body()
                 if (deck != null) {
                     println(deck.deck_id + "  remaining: " + deck.remaining)
-                    val playbtn : Button = findViewById(R.id.btn_play)
-                    playbtn.setTag(deck.deck_id)
+                    btnStart.tag = deck.deck_id
 
                 }
             }
@@ -150,11 +140,12 @@ class GameActivity : AppCompatActivity() {
                 call: Call<Deck>,
                 response: Response<Deck>
             ) {
-                val deck : Deck? = response.body()
-                if (deck != null) {
-                    println(deck.deck_id + "  remaining: " + deck.remaining)
-                    println(deck.cards[0].value)
-
+                if(response.isSuccessful) {
+                    val deck : Deck? = response.body()
+                    if (deck != null) {
+                        println(deck.deck_id + "  remaining: " + deck.remaining)
+                        println(deck.cards[0].value)
+                    }
                 }
             }
 

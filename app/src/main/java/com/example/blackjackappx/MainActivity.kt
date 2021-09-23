@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
             val isInDatabase = databaseHelper.isInDatabase(username, password)
 
-            val intent = Intent(this, GameActivity::class.java)
+            val intent = Intent(this, BettingActivity::class.java)
 
             if (isInDatabase) {
                 intent.putExtra("username", username)
