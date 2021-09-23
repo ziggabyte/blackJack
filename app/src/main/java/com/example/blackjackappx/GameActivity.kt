@@ -1,5 +1,6 @@
 package com.example.blackjackappx
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -91,6 +92,13 @@ class GameActivity : AppCompatActivity() {
         btnDraw.setOnClickListener{
             getDrawnCard(btnStart.tag.toString(), 1, cardCount)
             cardCount ++
+        }
+
+        btnLogout.setOnClickListener{
+            currentUser.clearScore()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("logoutMessage", "Du är utloggad, välkommen åter!")
+            startActivity(intent)
         }
     }
 

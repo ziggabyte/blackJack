@@ -20,11 +20,14 @@ class MainActivity : AppCompatActivity() {
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvLoginError = findViewById<TextView>(R.id.tvLoginError)
+        val tvLogoutMessage = findViewById<TextView>(R.id.tvLogoutMessage)
 
         val databaseHelper = DatabaseHelper(this)
-
         databaseHelper.initiateDatabase()
 
+        if(intent.hasExtra("logoutMessage")) {
+            tvLogoutMessage.text = intent.getStringExtra("logoutMessage").toString()
+        }
 
         btnLogin.setOnClickListener{
             val username = etUsername.text.toString()
@@ -41,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 tvLoginError.text = "Login failed, user does not exist"
             }
-
         }
     }
 }

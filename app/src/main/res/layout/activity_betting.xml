@@ -47,5 +47,16 @@
         app:layout_constraintEnd_toEndOf="@+id/et_bet"
         app:layout_constraintStart_toStartOf="@+id/et_bet" />
 
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="110dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#1A1C1C"
+        android:text="@string/logoutText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
