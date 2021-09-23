@@ -168,6 +168,8 @@ class GameActivity : AppCompatActivity() {
                     card2.load(deck.cards[1].image)
                     card3.load(deck.cards[2].image)
                     card4.load(deck.cards[3].image)
+
+
                 }
             }
 
