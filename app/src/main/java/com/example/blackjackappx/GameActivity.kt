@@ -26,13 +26,12 @@ class GameActivity : AppCompatActivity() {
     lateinit var btnDraw: Button
     lateinit var btnHold : Button
     lateinit var tvPlayerStack: TextView
+    lateinit var tvCurrentBet : TextView
     lateinit var tvPlayerName: TextView
-
-    lateinit var tvScore: TextView
+    lateinit var tvUserScore : TextView
+    lateinit var tvDealerScoreNumber : TextView
+    lateinit var tvUserScoreNumber : TextView
     lateinit var tvDealerScore: TextView
-    lateinit var etPlacedBet: EditText
-
-
 
     //spelarens iv-kort som dras med btnDraw
     lateinit var playerCard3 : ImageView
@@ -63,16 +62,16 @@ class GameActivity : AppCompatActivity() {
         dealerCard4 = findViewById(R.id.dealerCard4)
         dealerCard5 = findViewById(R.id.dealerCard5)
 
+        tvCurrentBet = findViewById(R.id.tv_curretn_bet)
         tvPlayerStack = findViewById(R.id.tv_stack_size)
         tvPlayerName = findViewById(R.id.tvPlayerName)
+        tvDealerScore = findViewById(R.id.tv_user_score)
+        tvUserScore = findViewById(R.id.tv_dealer_score)
+        tvDealerScoreNumber = findViewById(R.id.tv_dealer_score_number)
+        tvUserScoreNumber = findViewById(R.id.tv_user_score_number)
 
         btnDraw = findViewById(R.id.btn_draw)
         btnHold = findViewById(R.id.btn_hold)
-
-        tvScore = findViewById(R.id.tvScore)
-        tvDealerScore = findViewById(R.id.tvDealerPoint)
-
-
         btnStart = findViewById(R.id.btn_start)
         btnLogout = findViewById(R.id.btn_logout)
 
@@ -85,6 +84,8 @@ class GameActivity : AppCompatActivity() {
         var startStack = 100 - intent.getStringExtra("placedBet")!!.toInt()
         currentUser.userStack = startStack
         tvPlayerStack.text = "$startStack"
+
+        tvCurrentBet.text = intent.getStringExtra("placedBet")
 
         fun updateStack(bet: String) {
             startStack -= bet.toInt()
@@ -178,21 +179,6 @@ class GameActivity : AppCompatActivity() {
                     val c2 : Card = deck.cards[2]
                     val d1 : Card = deck.cards[1]
                     val d2 : Card = deck.cards[3]
-
-
-
-                     fun setPoints (c : Card) {
-                        c.points =
-                            if(c.value == "ACE") {
-                                11
-                            }
-                            else if(c.value == "KING" || c.value == "QUEEN" || c.value == "JACK") {
-                                10
-                            }
-                            else {
-                                c.value.toInt()
-                            }
-                    }
                     
                     setPoints(c)
                     setPoints(c2)
@@ -204,10 +190,18 @@ class GameActivity : AppCompatActivity() {
 
                     println("---------------------------------------$playerPoints")
 
-                    tvScore.setText(playerPoints.toString())
-                    tvDealerScore.setText(dealerPoints.toString())
+                    //Sätter första user score och dealer score
+                    tvUserScoreNumber.text = playerPoints.toString()
+                    tvDealerScoreNumber.text = dealerPoints.toString()
 
+                    //göra user score och dealer score synliga
+                    tvUserScore.visibility = View.VISIBLE
+                    tvUserScoreNumber.visibility = View.VISIBLE
+                    tvDealerScore.visibility = View.VISIBLE
+                    tvDealerScoreNumber.visibility = View.VISIBLE
 
+                    //kolla ifall någon har fått BlackJack
+                    checkForBlackJack()
                 }
             }
 
@@ -215,6 +209,65 @@ class GameActivity : AppCompatActivity() {
                 Log.d("MainActivity", "did not work $t")
             }
         })
+    }
+
+    fun setPoints (c : Card) : Int {
+        if(c.value == "ACE") {
+            c.points = 11
+            return 11
+        }
+        else if(c.value == "KING" || c.value == "QUEEN" || c.value == "JACK") {
+            c.points = 10
+            return 10
+        }
+        else {
+            c.points = c.value.toInt()
+            return c.value.toInt()
+        }
+    }
+
+    fun updateScoreNumbers(tvScoreNumber : TextView, newCardPoints : Int) {
+        val newScore = tvScoreNumber.text.toString().toInt() + newCardPoints
+        tvScoreNumber.text = newScore.toString()
+    }
+
+    fun checkForBlackJack() {
+        val userScore = tvUserScoreNumber.text.toString().toInt()
+        val dealerScore = tvDealerScoreNumber.text.toString().toInt()
+
+        if (userScore == 21 && dealerScore == 21) {
+            announceWinner("tie", false)
+        } else if (userScore == 21) {
+            announceWinner("user", true)
+        } else if (dealerScore == 21) {
+            announceWinner("dealer", true)
+        }
+    }
+
+    fun announceWinner(whoWon : String, isBlackJack: Boolean) {
+        when (whoWon) {
+            "user" -> userWon(isBlackJack)
+            "dealer" -> dealerWon(isBlackJack)
+            "tie" -> itsATie()
+        }
+    }
+
+    fun userWon(isBlackJack : Boolean) {
+        // öppna popup
+        // innehållet sätts till "DU har vunnit! Grattis!"
+        // Lägger till "Du fick blackjack" eller inte
+        // skriver "Din vinst" och summa av vinst
+
+    }
+
+    fun itsATie() {
+        //öppna popup
+        // Innehållet sätts till "Oavgjort!"
+        // skriver "Din vinst" och summa av vinst
+    }
+
+    fun dealerWon(isBlackJack : Boolean) {
+
     }
 
     //hämtar ett kort i taget och skriver ut kort till spelaren
@@ -270,6 +323,12 @@ class GameActivity : AppCompatActivity() {
                     println(deck.cards[0].value)
                     var ivList : MutableList<ImageView> = mutableListOf(dealerCard3,dealerCard4,dealerCard5)
                     ivList[cardCount].load(deck.cards[0].image)
+
+                    val c = setPoints(deck.cards[0])
+                    val currentDealerScore = tvDealerScoreNumber.text.toString().toInt()
+                    var newDealerScore : Int = currentDealerScore + c
+                    tvDealerScoreNumber.text = newDealerScore.toString()
+
                     return
                 }
             }
