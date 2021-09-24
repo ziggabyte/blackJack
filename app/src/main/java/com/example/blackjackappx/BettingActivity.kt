@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
 class BettingActivity : AppCompatActivity() {
 
@@ -21,13 +22,18 @@ class BettingActivity : AppCompatActivity() {
         btnLogout = findViewById(R.id.btn_logout)
 
         btnPlaceBetAndAStart.setOnClickListener{
-            val placedBet = etBet.text.toString()
-            var intent = Intent(this, GameActivity::class.java)
-            intent.putExtra("placedBet", placedBet)
-            intent.putExtra("username", getIntent().getStringExtra("username"))
-            intent.putExtra("password", getIntent().getStringExtra("password"))
+            if (etBet.text.toString() == "") {
+                Toast.makeText(this, "Du får inte satsa 0 pengar", Toast.LENGTH_SHORT).show()
+            } else {
+                val placedBet = etBet.text.toString()
+                var intent = Intent(this, GameActivity::class.java)
+                intent.putExtra("placedBet", placedBet)
+                intent.putExtra("username", getIntent().getStringExtra("username"))
+                intent.putExtra("password", getIntent().getStringExtra("password"))
 
-            startActivity(intent)
+                startActivity(intent)
+            }
+
         }
 
         btnLogout.setOnClickListener{
