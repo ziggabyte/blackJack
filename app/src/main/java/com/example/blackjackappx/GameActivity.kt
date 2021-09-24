@@ -100,7 +100,14 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnHold.setOnClickListener{
-            getDrawnCardToDealer(btnStart.tag.toString(), 1, cardCount)
+            val dealerScore = tvDealerScoreNumber.text.toString().toInt()
+            if (dealerScore >= 17) {
+                checkForWinner()
+            } else {
+                while (dealerScore <= 16) {
+                    getDrawnCardToDealer(btnStart.tag.toString(), 1, cardCount)
+                }
+            }
             cardCount++
         }
 
@@ -268,7 +275,7 @@ class GameActivity : AppCompatActivity() {
 
     fun isOver21(userScore : Int, dealerScore: Int) : Boolean{
         if (userScore > 21) {
-            announceWinner("user", false)
+            announceWinner("dealer", false)
             return true
         } else if (dealerScore > 21) {
             announceWinner("user", false)
@@ -343,12 +350,17 @@ class GameActivity : AppCompatActivity() {
                         var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
                         ivList[cardCount].load(deck.cards[0].image)
 
+                        //uppdatera score
+                        val currentUserScore = this@GameActivity.tvUserScoreNumber.text.toString().toInt()
+                        val newUserScore = currentUserScore + setPoints(deck.cards[0])
+                        this@GameActivity.tvUserScoreNumber.text = newUserScore.toString()
+
                         //kolla ifall det blivit blackjack eller nån har gått över 21
-                        isBlackJack(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
-                        isOver21(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
-                        
+                        isBlackJack(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
+                        isOver21(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
+
                         return
                     }
                 }
@@ -387,7 +399,9 @@ class GameActivity : AppCompatActivity() {
                     var newDealerScore : Int = currentDealerScore + c
                     tvDealerScoreNumber.text = newDealerScore.toString()
 
-                    checkForWinner()
+                    if (newDealerScore >= 16) {
+                        checkForWinner()
+                    }
                     return
                 }
             }
