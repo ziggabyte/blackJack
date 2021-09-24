@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import coil.load
 import com.example.blackjackappx.entities.*
 import retrofit2.Call
@@ -201,8 +202,8 @@ class GameActivity : AppCompatActivity() {
                         tvDealerScore.visibility = View.VISIBLE
                         tvDealerScoreNumber.visibility = View.VISIBLE
 
-                        //kolla ifall någon har fått BlackJack
-                        checkForBlackJack()
+                        //kolla ifall någon har vunnit/fått blackjack
+                        isBlackJack(playerPoints, dealerPoints)
                     } else{shuffleDeck(deck.deck_id)}
                 }
             }
@@ -214,18 +215,22 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun setPoints (c : Card) : Int {
+        var value : Int
+
         if(c.value == "ACE") {
             c.points = 11
-            return 11
+            value =  11
         }
         else if(c.value == "KING" || c.value == "QUEEN" || c.value == "JACK") {
             c.points = 10
-            return 10
+            value = 10
         }
         else {
             c.points = c.value.toInt()
-            return c.value.toInt()
+            value = c.value.toInt()
         }
+
+        return value
     }
 
     fun updateScoreNumbers(tvScoreNumber : TextView, newCardPoints : Int) {
@@ -233,43 +238,87 @@ class GameActivity : AppCompatActivity() {
         tvScoreNumber.text = newScore.toString()
     }
 
-    fun checkForBlackJack() {
+    fun checkForWinner() {
         val userScore = tvUserScoreNumber.text.toString().toInt()
         val dealerScore = tvDealerScoreNumber.text.toString().toInt()
 
-        if (userScore == 21 && dealerScore == 21) {
+        if (!isBlackJack(userScore, dealerScore)) {
+            if (!isOver21(userScore, dealerScore)) {
+                if (!isNormalWin(userScore, dealerScore)) {
+                    //ingen har vunnit, gå vidare
+                }
+            }
+        }
+    }
+
+    fun isNormalWin(userScore: Int, dealerScore: Int) : Boolean {
+        if (userScore == dealerScore) {
             announceWinner("tie", false)
+            return true
+        } else if (userScore < dealerScore) {
+            announceWinner("dealer", false)
+            return true
+        } else if (dealerScore < userScore) {
+            announceWinner("user", false)
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun isOver21(userScore : Int, dealerScore: Int) : Boolean{
+        if (userScore > 21) {
+            announceWinner("user", false)
+            return true
+        } else if (dealerScore > 21) {
+            announceWinner("user", false)
+            return true
+        } else {
+            return false
+        }
+    }
+
+    fun isBlackJack(userScore : Int, dealerScore : Int) : Boolean {
+        if (userScore == 21 && dealerScore == 21) {
+            announceWinner("tie", true)
+            return true
         } else if (userScore == 21) {
             announceWinner("user", true)
+            return true
         } else if (dealerScore == 21) {
             announceWinner("dealer", true)
+            return true
+        } else {
+            return false
         }
+    }
+
+    fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean ) : AlertDialog {
+        var alertTitle = title;
+        if (isBlackJack) {
+           alertTitle  += " Black Jack!!"
+        }
+        return AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Spela igen") { _, _ ->
+                val intent = Intent(this, BettingActivity::class.java)
+                intent.putExtra("stack", this.tvPlayerStack.text.toString())
+                startActivity(intent)
+            }
+            .setNegativeButton("Avsluta och logga ut") { _, _ ->
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("logoutMessage", "Du är utloggad, välkommen åter!")
+                startActivity(intent)
+            }.create()
     }
 
     fun announceWinner(whoWon : String, isBlackJack: Boolean) {
         when (whoWon) {
-            "user" -> userWon(isBlackJack)
-            "dealer" -> dealerWon(isBlackJack)
-            "tie" -> itsATie()
+            "user" -> createWinnerDialog("Du vann!", "Du vinner xxx pengar", isBlackJack).show()
+            "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack).show()
+            "tie" -> createWinnerDialog("Oavgjort!!!!", "Du vinner xxx pengar", isBlackJack).show()
         }
-    }
-
-    fun userWon(isBlackJack : Boolean) {
-        // öppna popup
-        // innehållet sätts till "DU har vunnit! Grattis!"
-        // Lägger till "Du fick blackjack" eller inte
-        // skriver "Din vinst" och summa av vinst
-
-    }
-
-    fun itsATie() {
-        //öppna popup
-        // Innehållet sätts till "Oavgjort!"
-        // skriver "Din vinst" och summa av vinst
-    }
-
-    fun dealerWon(isBlackJack : Boolean) {
-
     }
 
     //hämtar ett kort i taget och skriver ut kort till spelaren
@@ -293,6 +342,13 @@ class GameActivity : AppCompatActivity() {
                         println(deck.cards[0].value)
                         var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
                         ivList[cardCount].load(deck.cards[0].image)
+
+                        //kolla ifall det blivit blackjack eller nån har gått över 21
+                        isBlackJack(this@GameActivity.tvUserScoreNumber.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
+                        isOver21(this@GameActivity.tvUserScoreNumber.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
+                        
                         return
                     }
                 }
@@ -331,6 +387,7 @@ class GameActivity : AppCompatActivity() {
                     var newDealerScore : Int = currentDealerScore + c
                     tvDealerScoreNumber.text = newDealerScore.toString()
 
+                    checkForWinner()
                     return
                 }
             }
