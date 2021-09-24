@@ -161,47 +161,49 @@ class GameActivity : AppCompatActivity() {
             ) {
                 val deck : Deck? = response.body()
                 if (deck != null) {
-                    println(deck.deck_id + "  remaining: " + deck.remaining)
-                    println(deck.cards[0].value)
-                    println(deck.cards[1].value)
-                    println(deck.cards[2].value)
-                    println(deck.cards[3].value)
-                    val card1 : ImageView = findViewById(R.id.card1)
-                    val card2 : ImageView = findViewById(R.id.card2)
-                    val card3 : ImageView = findViewById(R.id.card3)
-                    val card4 : ImageView = findViewById(R.id.card4)
-                    card1.load(deck.cards[0].image)
-                    card2.load(deck.cards[1].image)
-                    card3.load(deck.cards[2].image)
-                    card4.load(deck.cards[3].image)
+                    if(deck.remaining > 15) {
+                        println(deck.deck_id + "  remaining: " + deck.remaining)
+                        println(deck.cards[0].value)
+                        println(deck.cards[1].value)
+                        println(deck.cards[2].value)
+                        println(deck.cards[3].value)
+                        val card1: ImageView = findViewById(R.id.card1)
+                        val card2: ImageView = findViewById(R.id.card2)
+                        val card3: ImageView = findViewById(R.id.card3)
+                        val card4: ImageView = findViewById(R.id.card4)
+                        card1.load(deck.cards[0].image)
+                        card2.load(deck.cards[1].image)
+                        card3.load(deck.cards[2].image)
+                        card4.load(deck.cards[3].image)
 
-                    val c : Card = deck.cards[0]
-                    val c2 : Card = deck.cards[2]
-                    val d1 : Card = deck.cards[1]
-                    val d2 : Card = deck.cards[3]
-                    
-                    setPoints(c)
-                    setPoints(c2)
-                    setPoints(d1)
-                    setPoints(d2)
+                        val c: Card = deck.cards[0]
+                        val c2: Card = deck.cards[2]
+                        val d1: Card = deck.cards[1]
+                        val d2: Card = deck.cards[3]
 
-                    var playerPoints = c.points+c2.points
-                    var dealerPoints = d1.points+d2.points
+                        setPoints(c)
+                        setPoints(c2)
+                        setPoints(d1)
+                        setPoints(d2)
 
-                    println("---------------------------------------$playerPoints")
+                        var playerPoints = c.points + c2.points
+                        var dealerPoints = d1.points + d2.points
 
-                    //Sätter första user score och dealer score
-                    tvUserScoreNumber.text = playerPoints.toString()
-                    tvDealerScoreNumber.text = dealerPoints.toString()
+                        println("---------------------------------------$playerPoints")
 
-                    //göra user score och dealer score synliga
-                    tvUserScore.visibility = View.VISIBLE
-                    tvUserScoreNumber.visibility = View.VISIBLE
-                    tvDealerScore.visibility = View.VISIBLE
-                    tvDealerScoreNumber.visibility = View.VISIBLE
+                        //Sätter första user score och dealer score
+                        tvUserScoreNumber.text = playerPoints.toString()
+                        tvDealerScoreNumber.text = dealerPoints.toString()
 
-                    //kolla ifall någon har fått BlackJack
-                    checkForBlackJack()
+                        //göra user score och dealer score synliga
+                        tvUserScore.visibility = View.VISIBLE
+                        tvUserScoreNumber.visibility = View.VISIBLE
+                        tvDealerScore.visibility = View.VISIBLE
+                        tvDealerScoreNumber.visibility = View.VISIBLE
+
+                        //kolla ifall någon har fått BlackJack
+                        checkForBlackJack()
+                    } else{shuffleDeck(deck.deck_id)}
                 }
             }
 
@@ -337,5 +339,30 @@ class GameActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun shuffleDeck(deckId: String){
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RetrofitInterface::class.java)
+
+        val call = retrofit.shuffleDeck(deckId)
+        call?.enqueue(object: Callback<Deck> {
+            override fun onResponse(
+                call: Call<Deck>,
+                response: Response<Deck>
+            ) {
+                val deck : Deck? = response.body()
+                if (deck != null) {
+                    getStartCards(deck.deck_id,4)
+                }
+            }
+            override fun onFailure(call: Call<Deck>, t: Throwable) {
+                Log.d("MainActivity", "did not work $t")
+            }
+        })
+    }
+
 
 }

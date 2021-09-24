@@ -13,6 +13,8 @@ interface RetrofitInterface {
     fun getDeck() : Call<Deck>
 
 
+    @GET("/api/deck/{id}/shuffle/")
+    fun shuffleDeck(@Path("id") deckID : String) : Call<Deck>
 
     @GET("/api/deck/{id}/draw/?count=")
     fun getStartCards(@Path("id") deckID : String, @Query("count") count : Int) : Call<Deck>
