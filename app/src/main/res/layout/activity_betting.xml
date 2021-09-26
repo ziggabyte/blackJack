@@ -7,45 +7,47 @@
     android:background="@drawable/mat_3"
     tools:context=".BettingActivity">
 
-    <Button
-        android:id="@+id/btn_place_bet_and_start"
-        android:layout_width="150dp"
-        android:layout_height="85dp"
-        android:backgroundTint="#3DA2CF"
-        android:text="@string/betText"
-        app:layout_constraintEnd_toEndOf="@id/et_bet"
-        app:layout_constraintStart_toStartOf="@id/et_bet"
-        app:layout_constraintTop_toBottomOf="@id/et_bet" />
-
 
     <EditText
         android:id="@+id/et_bet"
         android:layout_width="150dp"
-        android:layout_height="101dp"
-        android:layout_marginTop="240dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/purple_200"
+        android:backgroundTint="#C1C3D1"
         android:ems="10"
         android:hint="@string/betSize2"
         android:inputType="number"
-        android:textSize="60sp"
-        android:background="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_place_bet_and_start"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_place_bet_and_start"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="236dp"
+        android:backgroundTint="#062B3C"
+        android:text="@string/betText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tv_start_stack"
-        android:layout_width="158dp"
-        android:layout_height="88dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginBottom="456dp"
+        android:background="@color/white"
+        android:backgroundTint="#4CAF50"
         android:text="@string/tvStartStack"
         android:textAlignment="center"
-        android:textSize="34sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/et_bet"
-        app:layout_constraintEnd_toEndOf="@+id/et_bet"
-        app:layout_constraintStart_toStartOf="@+id/et_bet" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_logout"
