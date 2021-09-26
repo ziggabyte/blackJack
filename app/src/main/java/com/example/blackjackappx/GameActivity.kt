@@ -86,12 +86,15 @@ class GameActivity : AppCompatActivity() {
         currentUser.userStack = startStack
         tvPlayerStack.text = "$startStack"
 
+        //var bet: String = intent.getStringExtra("placedBet")!!
         tvCurrentBet.text = intent.getStringExtra("placedBet")
 
         fun updateStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
         }
+
+        btnStart.setText("Let's go!\n \nGood luck! ")
 
         btnStart.setOnClickListener{
             getStartCards(btnStart.tag.toString(), 4)
@@ -314,10 +317,12 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun announceWinner(whoWon : String, isBlackJack: Boolean) {
+        var bet = intent.getStringExtra("placedBet")?.toInt()
+        var wonBet = bet?.times(2)
         when (whoWon) {
-            "user" -> createWinnerDialog("Du vann!", "Du vinner xxx pengar", isBlackJack).show()
+            "user" -> createWinnerDialog("Du vann!", "Du vinner ${wonBet.toString()} $", isBlackJack).show()
             "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack).show()
-            "tie" -> createWinnerDialog("Oavgjort!!!!", "Du vinner xxx pengar", isBlackJack).show()
+            "tie" -> createWinnerDialog("Oavgjort!!!!", "Du får tillbaka din insats på $bet $", isBlackJack).show()
         }
     }
 
