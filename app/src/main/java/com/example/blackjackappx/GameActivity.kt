@@ -95,12 +95,13 @@ class GameActivity : AppCompatActivity() {
             tvPlayerStack.text = "$startStack"
         }
 
-        btnStart.setText("Let's go!\n \nGood luck! ")
-
         btnStart.setOnClickListener{
             getStartCards(btnStart.tag.toString(), 4)
             btnStart.visibility = View.INVISIBLE
-            btnStart.isClickable = false
+            btnStart.isEnabled = false
+
+            btnHold.isEnabled = true
+            btnDraw.isEnabled = true
         }
 
         btnHold.setOnClickListener{
