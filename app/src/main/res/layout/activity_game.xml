@@ -21,43 +21,65 @@
 
 
     <Button
-        android:id="@+id/btn_draw"
-        android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="#4AEF51"
-        android:text="@string/drawText"
-        android:textColor="#263238"
-        app:layout_constraintStart_toEndOf="@+id/btn_hold"
-        app:layout_constraintTop_toTopOf="@+id/btn_hold" />
-
-    <Button
         android:id="@+id/btn_hold"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="260dp"
-        android:backgroundTint="#F44A4A"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="240dp"
+        android:backgroundTint="#9C2424"
         android:text="@string/holdText"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_draw"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_user_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="376dp"
+        android:background="@color/white"
+        android:text="@string/tvUserScore"
+        android:textSize="20dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/tv_dealer_score"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_dealer_score"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dealer_score" />
+
+    <Button
+        android:id="@+id/btn_draw"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="240dp"
+        android:backgroundTint="#38B53D"
+        android:text="@string/drawText"
+        android:textColor="#263238"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_hold" />
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp"
-        android:layout_marginTop="252dp"
-        android:backgroundTint="#F4E"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="296dp"
+        android:layout_marginEnd="80dp"
+        android:backgroundTint="#0E153C"
         android:text="@string/btnPlay"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_stack_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/userStackText"
         android:textSize="24sp"
@@ -68,11 +90,12 @@
         android:id="@+id/tv_stack_text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/tvCurrentBet"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_stack_text"
-        app:layout_constraintStart_toStartOf="@+id/tv_stack_text" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_stack_size"
@@ -95,152 +118,113 @@
         app:layout_constraintTop_toTopOf="@+id/tv_stack_text2" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/playerText1"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/tvPlayerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/playerName"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
-    <ImageView
-        android:id="@+id/card2"
-        android:layout_width="60dp"
-        android:layout_height="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvPlayerName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.273"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.34" />
-
-    <ImageView
-        android:id="@+id/card4"
-        android:layout_width="60dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvPlayerName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toEndOf="@+id/card2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.419" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_hold" />
 
     <ImageView
         android:id="@+id/card1"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginBottom="116dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_draw"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/card3"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.03"
-        app:layout_constraintStart_toEndOf="@+id/card1"
-        app:layout_constraintTop_toBottomOf="@+id/btn_draw"
-        app:layout_constraintVertical_bias="0.093" />
-
-    <ImageView
-        android:id="@+id/dealerCard3"
-        android:layout_width="60dp"
-        android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/card4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.483" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/dealerCard4"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
-        app:layout_constraintEnd_toStartOf="@+id/dealerCard5"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toEndOf="@+id/dealerCard3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.619" />
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="180dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/dealerCard3"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="165dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/card2"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="130dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/card4"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/dealerCard5"
         android:layout_width="60dp"
         android:layout_height="90dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/btn_hold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/dealerCard3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733" />
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/playerCard3"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginBottom="85dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toEndOf="@+id/card3"
-        app:layout_constraintTop_toBottomOf="@+id/btn_hold"
-        app:layout_constraintVertical_bias="0.326" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/playerCard4"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
+        android:layout_marginStart="190dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toEndOf="@+id/card3"
-        app:layout_constraintTop_toBottomOf="@+id/btn_hold"
-        app:layout_constraintVertical_bias="0.326" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/playerCard5"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="-40dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginBottom="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toEndOf="@+id/card3"
-        app:layout_constraintTop_toBottomOf="@+id/btn_hold"
-        app:layout_constraintVertical_bias="0.326" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_dealer_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="24dp"
         android:background="@color/white"
         android:text="@string/tvDealerScore"
         android:textSize="20dp"
@@ -258,19 +242,6 @@
         app:layout_constraintEnd_toEndOf="@id/tv_dealer_score"
         app:layout_constraintStart_toStartOf="@id/tv_dealer_score"
         app:layout_constraintTop_toBottomOf="@id/tv_dealer_score" />
-
-    <TextView
-        android:id="@+id/tv_user_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:background="@color/white"
-        android:text="@string/tvUserScore"
-        android:textSize="20dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/tv_dealer_score"
-        app:layout_constraintStart_toStartOf="@+id/tv_dealer_score"
-        app:layout_constraintTop_toBottomOf="@+id/tv_dealer_score" />
 
     <TextView
         android:id="@+id/tv_user_score_number"
