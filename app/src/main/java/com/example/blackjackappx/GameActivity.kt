@@ -86,7 +86,7 @@ class GameActivity : AppCompatActivity() {
         currentUser.userStack = startStack
         tvPlayerStack.text = "$startStack"
 
-        //var bet: String = intent.getStringExtra("placedBet")!!
+
         tvCurrentBet.text = intent.getStringExtra("placedBet")
 
         fun updateStack(bet: String) {
@@ -297,6 +297,9 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean ) : AlertDialog {
+        var newStack = tvPlayerStack.text.toString()
+        //println("------------------------------------------NEWSTACK: $newStack")
+
         var alertTitle = title;
         if (isBlackJack) {
            alertTitle  += " Black Jack!!"
@@ -306,7 +309,7 @@ class GameActivity : AppCompatActivity() {
             .setMessage(message)
             .setPositiveButton("Spela igen") { _, _ ->
                 val intent = Intent(this, BettingActivity::class.java)
-                intent.putExtra("stack", this.tvPlayerStack.text.toString())
+                intent.putExtra("stack", newStack)
                 startActivity(intent)
             }
             .setNegativeButton("Avsluta och logga ut") { _, _ ->

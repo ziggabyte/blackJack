@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 
 class BettingActivity : AppCompatActivity() {
 
     lateinit var btnPlaceBetAndAStart : Button
     lateinit var etBet : EditText
+    lateinit var tvStack : TextView
     lateinit var btnLogout : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +21,10 @@ class BettingActivity : AppCompatActivity() {
 
         btnPlaceBetAndAStart = findViewById(R.id.btn_place_bet_and_start)
         etBet = findViewById(R.id.et_bet)
+        tvStack = findViewById(R.id.tv_start_stack)
         btnLogout = findViewById(R.id.btn_logout)
+
+        tvStack.setText("Hello!")
 
         btnPlaceBetAndAStart.setOnClickListener{
             if (etBet.text.toString() == "") {
