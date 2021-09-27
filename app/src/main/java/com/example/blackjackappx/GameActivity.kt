@@ -321,7 +321,7 @@ class GameActivity : AppCompatActivity() {
                 var stackFromGame = tvPlayerStack.text.toString()
 
                 /*if(announceWinner("user", true)){
-                    //stakFromGame+=wonBet
+                    //stackFromGame+=wonBet
                 }*/
 
                 intent.putExtra("stackFromGame", stackFromGame)
