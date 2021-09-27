@@ -33,7 +33,6 @@ class BettingActivity : AppCompatActivity() {
 
                 startActivity(intent)
             }
-
         }
 
         btnLogout.setOnClickListener{

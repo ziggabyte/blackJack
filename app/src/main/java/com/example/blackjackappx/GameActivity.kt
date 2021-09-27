@@ -116,7 +116,10 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnLogout.setOnClickListener{
-            currentUser.clearScore()
+            currentUser.userStack = tvPlayerStack.text.toString().toInt()
+            val databaseHelper = DatabaseHelper(this)
+            databaseHelper.saveUserData(currentUser)
+
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("logoutMessage", "Du är utloggad, välkommen åter!")
             startActivity(intent)
