@@ -48,6 +48,7 @@ class GameActivity : AppCompatActivity() {
     var cardCount : Int = 0
     var dealerCardCount : Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -83,17 +84,19 @@ class GameActivity : AppCompatActivity() {
             intent.getStringExtra("password").toString())
         tvPlayerName.text = currentUser.username
 
-        var startStack = 100 - intent.getStringExtra("placedBet")!!.toInt()
-        currentUser.userStack = startStack
-        tvPlayerStack.text = "$startStack"
 
-        //var bet: String = intent.getStringExtra("placedBet")!!
+
+            var gameStack = intent.getStringExtra("stack").toString()
+            currentUser.userStack = gameStack.toInt()
+            tvPlayerStack.text = "$gameStack"
+        
+
         tvCurrentBet.text = intent.getStringExtra("placedBet")
 
-        fun updateStack(bet: String) {
+        /*fun updateStack(bet: String) {
             startStack -= bet.toInt()
             tvPlayerStack.text = "$startStack"
-        }
+        }*/
 
         btnStart.setOnClickListener{
             getStartCards(btnStart.tag.toString(), 4)
@@ -303,6 +306,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean ) : AlertDialog {
+
         var alertTitle = title;
         if (isBlackJack) {
            alertTitle  += " Black Jack!!"
@@ -312,7 +316,17 @@ class GameActivity : AppCompatActivity() {
             .setMessage(message)
             .setPositiveButton("Spela igen") { _, _ ->
                 val intent = Intent(this, BettingActivity::class.java)
-                intent.putExtra("stack", this.tvPlayerStack.text.toString())
+                var bet = intent.getStringExtra("placedBet")?.toInt()
+                var wonBet = bet?.times(2)
+                var stackFromGame = tvPlayerStack.text.toString()
+
+                /*if(announceWinner("user", true)){
+                    //stackFromGame+=wonBet
+                }*/
+
+                intent.putExtra("stackFromGame", stackFromGame)
+
+
                 startActivity(intent)
             }
             .setNegativeButton("Avsluta och logga ut") { _, _ ->
@@ -325,6 +339,7 @@ class GameActivity : AppCompatActivity() {
     fun announceWinner(whoWon : String, isBlackJack: Boolean) {
         var bet = intent.getStringExtra("placedBet")?.toInt()
         var wonBet = bet?.times(2)
+
         when (whoWon) {
             "user" -> createWinnerDialog("Du vann!", "Du vinner ${wonBet.toString()} $", isBlackJack).show()
             "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack).show()
