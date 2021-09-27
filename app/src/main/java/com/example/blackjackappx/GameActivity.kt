@@ -98,17 +98,19 @@ class GameActivity : AppCompatActivity() {
             tvPlayerStack.text = "$startStack"
         }*/
 
-        btnStart.setText("Let's go!\n \nGood luck! ")
-
         btnStart.setOnClickListener{
             getStartCards(btnStart.tag.toString(), 4)
             btnStart.visibility = View.INVISIBLE
-            btnStart.isClickable = false
+            btnStart.isEnabled = false
+
+            btnHold.isEnabled = true
+            btnDraw.isEnabled = true
         }
 
         btnHold.setOnClickListener{
             getDrawnCardToDealer(btnStart.tag.toString(), 1, dealerCardCount)
             dealerCardCount++
+            checkForWinner()
         }
 
         btnDraw.setOnClickListener{
@@ -117,7 +119,10 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnLogout.setOnClickListener{
-            currentUser.clearScore()
+            currentUser.userStack = tvPlayerStack.text.toString().toInt()
+            val databaseHelper = DatabaseHelper(this)
+            databaseHelper.saveUserData(currentUser)
+
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("logoutMessage", "Du är utloggad, välkommen åter!")
             startActivity(intent)
@@ -275,7 +280,7 @@ class GameActivity : AppCompatActivity() {
 
     fun isOver21(userScore : Int, dealerScore: Int) : Boolean{
         if (userScore > 21) {
-            announceWinner("user", false)
+            announceWinner("dealer", false)
             return true
         } else if (dealerScore > 21) {
             announceWinner("user", false)
@@ -364,12 +369,16 @@ class GameActivity : AppCompatActivity() {
                         var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
                         ivList[cardCount].load(deck.cards[0].image)
 
+                        //uppdatera score
+                        val currentUserScore = this@GameActivity.tvUserScoreNumber.text.toString().toInt()
+                        val newUserScore = currentUserScore + setPoints(deck.cards[0])
+                        this@GameActivity.tvUserScoreNumber.text = newUserScore.toString()
+
                         //kolla ifall det blivit blackjack eller nån har gått över 21
                         isBlackJack(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
                             this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
                         isOver21(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
                             this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
-                        
                         return
                     }
                 }
@@ -381,6 +390,7 @@ class GameActivity : AppCompatActivity() {
     }
     //hämtar ett kort i taget och skriver ut kort till dealern
     private fun getDrawnCardToDealer(deckId: String, count: Int, dealerCardCount : Int){
+        var dCC = dealerCardCount
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -390,32 +400,35 @@ class GameActivity : AppCompatActivity() {
 
         val call = retrofit.getDrawnCard(deckId, count)
 
-        //while (dealer.score < 17){
-        call?.enqueue(object: Callback<Deck> {
-            override fun onResponse(
-                call: Call<Deck>,
-                response: Response<Deck>
-            ) {
-                val deck : Deck? = response.body()
-                if (deck != null) {
-                    println(deck.deck_id + "  remaining: " + deck.remaining)
-                    println(deck.cards[0].value)
-                    var ivList : MutableList<ImageView> = mutableListOf(dealerCard3,dealerCard4,dealerCard5)
-                    ivList[dealerCardCount].load(deck.cards[0].image)
+        if (tvDealerScoreNumber.text.toString().toInt() < 17) {
+            call?.enqueue(object : Callback<Deck> {
+                override fun onResponse(
+                    call: Call<Deck>,
+                    response: Response<Deck>
+                ) {
+                    val deck: Deck? = response.body()
+                    if (deck != null) {
+                        println(deck.deck_id + "  remaining: " + deck.remaining)
+                        println(deck.cards[0].value)
+                        var ivList: MutableList<ImageView> =
+                            mutableListOf(dealerCard3, dealerCard4, dealerCard5)
+                        ivList[dCC].load(deck.cards[0].image)
 
-                    val c = setPoints(deck.cards[0])
-                    val currentDealerScore = tvDealerScoreNumber.text.toString().toInt()
-                    var newDealerScore : Int = currentDealerScore + c
-                    tvDealerScoreNumber.text = newDealerScore.toString()
-
-                    checkForWinner()
-                    return
+                        val c = setPoints(deck.cards[0])
+                        val currentDealerScore = tvDealerScoreNumber.text.toString().toInt()
+                        var newDealerScore: Int = currentDealerScore + c
+                        tvDealerScoreNumber.text = newDealerScore.toString()
+                        dCC++
+                        getDrawnCardToDealer(deck.deck_id,1,dCC)
+                    }
                 }
-            }
-            override fun onFailure(call: Call<Deck>, t: Throwable) {
-                Log.d("MainActivity", "did not work $t")
-            }
-        })
+                override fun onFailure(call: Call<Deck>, t: Throwable) {
+                    Log.d("MainActivity", "did not work $t")
+                }
+            })
+        } else {
+            checkForWinner()
+        }
     }
 
     private fun shuffleDeck(deckId: String){

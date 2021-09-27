@@ -56,7 +56,6 @@ class BettingActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Du har : ", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         btnLogout.setOnClickListener{

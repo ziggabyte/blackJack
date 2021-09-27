@@ -29,6 +29,7 @@
         android:layout_marginBottom="240dp"
         android:backgroundTint="#9C2424"
         android:text="@string/holdText"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_draw"
         app:layout_constraintHorizontal_bias="0.5"
@@ -58,6 +59,7 @@
         android:backgroundTint="#38B53D"
         android:text="@string/drawText"
         android:textColor="#263238"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -67,11 +69,11 @@
         android:id="@+id/btn_start"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="288dp"
         android:layout_marginEnd="80dp"
         android:backgroundTint="#0E153C"
-        android:text="@string/btnPlay"
-        android:textSize="24sp"
+        android:text="@string/btnStart"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,8 +152,8 @@
         android:id="@+id/dealerCard4"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,8 +161,8 @@
         android:id="@+id/dealerCard3"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="165dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,8 +170,8 @@
         android:id="@+id/card2"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -177,8 +179,8 @@
         android:id="@+id/card4"
         android:layout_width="60dp"
         android:layout_height="90dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -187,8 +189,8 @@
         android:layout_width="60dp"
         android:layout_height="90dp"
 
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="108dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
