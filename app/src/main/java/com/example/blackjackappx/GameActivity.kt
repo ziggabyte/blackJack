@@ -350,10 +350,10 @@ class GameActivity : AppCompatActivity() {
                         ivList[cardCount].load(deck.cards[0].image)
 
                         //kolla ifall det blivit blackjack eller nån har gått över 21
-                        isBlackJack(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
-                        isOver21(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
+                        isBlackJack(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
+                        isOver21(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
                         
                         return
                     }
