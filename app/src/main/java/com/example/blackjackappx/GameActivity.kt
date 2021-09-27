@@ -46,6 +46,7 @@ class GameActivity : AppCompatActivity() {
 
     //variabel som styr vilket kort som ska få värde i en lista av korten/imageviews
     var cardCount : Int = 0
+    var dealerCardCount : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,8 +104,8 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnHold.setOnClickListener{
-            getDrawnCardToDealer(btnStart.tag.toString(), 1, cardCount)
-            cardCount++
+            getDrawnCardToDealer(btnStart.tag.toString(), 1, dealerCardCount)
+            dealerCardCount++
         }
 
         btnDraw.setOnClickListener{
@@ -352,10 +353,10 @@ class GameActivity : AppCompatActivity() {
                         ivList[cardCount].load(deck.cards[0].image)
 
                         //kolla ifall det blivit blackjack eller nån har gått över 21
-                        isBlackJack(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
-                        isOver21(this@GameActivity.tvUserScoreNumber.toString().toInt(),
-                            this@GameActivity.tvDealerScoreNumber.toString().toInt())
+                        isBlackJack(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
+                        isOver21(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
+                            this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
                         
                         return
                     }
@@ -367,7 +368,7 @@ class GameActivity : AppCompatActivity() {
         })
     }
     //hämtar ett kort i taget och skriver ut kort till dealern
-    private fun getDrawnCardToDealer(deckId: String, count: Int, cardCount : Int){
+    private fun getDrawnCardToDealer(deckId: String, count: Int, dealerCardCount : Int){
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -388,7 +389,7 @@ class GameActivity : AppCompatActivity() {
                     println(deck.deck_id + "  remaining: " + deck.remaining)
                     println(deck.cards[0].value)
                     var ivList : MutableList<ImageView> = mutableListOf(dealerCard3,dealerCard4,dealerCard5)
-                    ivList[cardCount].load(deck.cards[0].image)
+                    ivList[dealerCardCount].load(deck.cards[0].image)
 
                     val c = setPoints(deck.cards[0])
                     val currentDealerScore = tvDealerScoreNumber.text.toString().toInt()
