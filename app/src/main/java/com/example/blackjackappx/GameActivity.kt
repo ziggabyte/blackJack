@@ -104,12 +104,9 @@ class GameActivity : AppCompatActivity() {
         }
 
         btnHold.setOnClickListener{
-
-                getDrawnCardToDealer(btnStart.tag.toString(), 1, dealerCardCount)
-                dealerCardCount++
-
-
-
+            getDrawnCardToDealer(btnStart.tag.toString(), 1, dealerCardCount)
+            dealerCardCount++
+            checkForWinner()
         }
 
         btnDraw.setOnClickListener{
@@ -276,7 +273,7 @@ class GameActivity : AppCompatActivity() {
 
     fun isOver21(userScore : Int, dealerScore: Int) : Boolean{
         if (userScore > 21) {
-            announceWinner("user", false)
+            announceWinner("dealer", false)
             return true
         } else if (dealerScore > 21) {
             announceWinner("user", false)
@@ -353,12 +350,16 @@ class GameActivity : AppCompatActivity() {
                         var ivList : MutableList<ImageView> = mutableListOf(playerCard3,playerCard4,playerCard5)
                         ivList[cardCount].load(deck.cards[0].image)
 
+                        //uppdatera score
+                        val currentUserScore = this@GameActivity.tvUserScoreNumber.text.toString().toInt()
+                        val newUserScore = currentUserScore + setPoints(deck.cards[0])
+                        this@GameActivity.tvUserScoreNumber.text = newUserScore.toString()
+
                         //kolla ifall det blivit blackjack eller nån har gått över 21
                         isBlackJack(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
                             this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
                         isOver21(this@GameActivity.tvUserScoreNumber.text.toString().toInt(),
                             this@GameActivity.tvDealerScoreNumber.text.toString().toInt())
-                        
                         return
                     }
                 }
@@ -379,6 +380,7 @@ class GameActivity : AppCompatActivity() {
             .create(RetrofitInterface::class.java)
 
         val call = retrofit.getDrawnCard(deckId, count)
+
         if (tvDealerScoreNumber.text.toString().toInt() < 17) {
             call?.enqueue(object : Callback<Deck> {
                 override fun onResponse(
@@ -401,13 +403,13 @@ class GameActivity : AppCompatActivity() {
                         getDrawnCardToDealer(deck.deck_id,1,dCC)
                     }
                 }
-
                 override fun onFailure(call: Call<Deck>, t: Throwable) {
                     Log.d("MainActivity", "did not work $t")
                 }
             })
-        }else{checkForWinner()}
-
+        } else {
+            checkForWinner()
+        }
     }
 
     private fun shuffleDeck(deckId: String){
