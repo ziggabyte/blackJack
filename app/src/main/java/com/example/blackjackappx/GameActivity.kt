@@ -307,12 +307,13 @@ class GameActivity : AppCompatActivity() {
 
     fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean, winOrTie: String, payBack: String ) : AlertDialog {
 
-        var alertTitle = title;
+        var alertTitle = title
         if (isBlackJack) {
-           alertTitle  += " Black Jack!!"
+           alertTitle  = "Black Jack!! $title"
         }
+
         return AlertDialog.Builder(this)
-            .setTitle(title)
+            .setTitle(alertTitle)
             .setMessage(message)
             .setPositiveButton("Spela igen") { _, _ ->
                 val intent = Intent(this, BettingActivity::class.java)
@@ -342,7 +343,7 @@ class GameActivity : AppCompatActivity() {
 
         when (whoWon) {
             "user" -> createWinnerDialog("Du vann!", "Du vinner ${wonBet.toString()} $", isBlackJack, "win", "${wonBet.toString()}").show()
-            "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack, "", "").show()
+            "dealer" -> createWinnerDialog("Dealern vann!", "Du vinner inga pengar", isBlackJack, "", "").show()
             "tie" -> createWinnerDialog("Oavgjort!!!!", "Du får tillbaka din insats på $bet $", isBlackJack, "tie", "${bet.toString()}").show()
         }
     }
