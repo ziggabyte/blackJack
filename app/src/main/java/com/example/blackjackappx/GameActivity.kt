@@ -305,7 +305,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean ) : AlertDialog {
+    fun createWinnerDialog(title : String, message : String, isBlackJack: Boolean, winOrTie: String, payBack: String ) : AlertDialog {
 
         var alertTitle = title;
         if (isBlackJack) {
@@ -316,16 +316,17 @@ class GameActivity : AppCompatActivity() {
             .setMessage(message)
             .setPositiveButton("Spela igen") { _, _ ->
                 val intent = Intent(this, BettingActivity::class.java)
-                var bet = intent.getStringExtra("placedBet")?.toInt()
-                var wonBet = bet?.times(2)
-                var stackFromGame = tvPlayerStack.text.toString()
 
-                /*if(announceWinner("user", true)){
-                    //stackFromGame+=wonBet
-                }*/
+                var stackFromGame = tvPlayerStack.text.toString().toInt()
 
-                intent.putExtra("stackFromGame", stackFromGame)
+                    if(winOrTie == "win"){
+                        stackFromGame+= payBack.toInt()
 
+                    }else if(winOrTie=="tie"){
+                        stackFromGame+=payBack.toInt()
+                    }
+
+                intent.putExtra("stackFromGame", stackFromGame.toString())
 
                 startActivity(intent)
             }
@@ -341,9 +342,9 @@ class GameActivity : AppCompatActivity() {
         var wonBet = bet?.times(2)
 
         when (whoWon) {
-            "user" -> createWinnerDialog("Du vann!", "Du vinner ${wonBet.toString()} $", isBlackJack).show()
-            "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack).show()
-            "tie" -> createWinnerDialog("Oavgjort!!!!", "Du får tillbaka din insats på $bet $", isBlackJack).show()
+            "user" -> createWinnerDialog("Du vann!", "Du vinner ${wonBet.toString()} $", isBlackJack, "win", "${wonBet.toString()}").show()
+            "dealer" -> createWinnerDialog("Dealern vann...", "Du vinner inga pengar", isBlackJack, "", "").show()
+            "tie" -> createWinnerDialog("Oavgjort!!!!", "Du får tillbaka din insats på $bet $", isBlackJack, "tie", "${bet.toString()}").show()
         }
     }
 
@@ -457,3 +458,4 @@ class GameActivity : AppCompatActivity() {
 
 
 }
+
