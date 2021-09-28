@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/lobby4"
     tools:context=".MainActivity">
 
 
@@ -16,6 +17,8 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text="Testuser"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -30,6 +33,8 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:text="Password123"
+        android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/etUsername"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/etUsername"
@@ -37,8 +42,8 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
         android:layout_marginTop="48dp"
         android:text="@string/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"

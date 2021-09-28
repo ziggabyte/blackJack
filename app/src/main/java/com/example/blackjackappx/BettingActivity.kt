@@ -39,12 +39,14 @@ class BettingActivity : AppCompatActivity() {
 
 
         btnPlaceBetAndAStart.setOnClickListener {
+
             if (etBet.text.toString() == "") {
                 Toast.makeText(this, "Du får inte satsa 0 pengar", Toast.LENGTH_SHORT).show()
-            } else if(etBet.text.toString().toInt()<100) {
 
+            } else if(etBet.text.toString().toInt()<startStack.toInt()) {
                 val placedBet = etBet.text.toString()
                 val stack = startStack.toInt()-placedBet.toInt()
+
                 var intent = Intent(this, GameActivity::class.java)
 
                 intent.putExtra("stack", stack.toString())
@@ -54,7 +56,7 @@ class BettingActivity : AppCompatActivity() {
 
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Du har : ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Du har $$startStack att spela för", Toast.LENGTH_SHORT).show()
             }
         }
 
