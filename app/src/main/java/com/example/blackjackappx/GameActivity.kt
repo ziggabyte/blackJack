@@ -322,12 +322,11 @@ class GameActivity : AppCompatActivity() {
                     if(winOrTie == "win"){
                         stackFromGame+= payBack.toInt()
 
-                    }else if(winOrTie=="tie"){
+                    } else if (winOrTie=="tie"){
                         stackFromGame+=payBack.toInt()
                     }
-
                 intent.putExtra("stackFromGame", stackFromGame.toString())
-
+                intent.putExtra("username", tvPlayerName.text.toString())
                 startActivity(intent)
             }
             .setNegativeButton("Avsluta och logga ut") { _, _ ->
